@@ -13,7 +13,41 @@ const connection = mysql.createConnection({
 });
 
 function init() {
+    inquirer.prompt({
+            name: 'action',
+            type: 'list',
+            message: 'Please select an action.',
+            choices: ['Add', 'View', 'Update', 'Exit']
+        }).then(function(answer) {
+            if(answer.action === 'Add') {
+                add();
+            }
+            else if(answer.action === 'View') {
+                view();
+            }
+            else if(answer.action === 'Update') {
+                update();
+            }
+            else {
+                console.log('Goodbye.')
+                connection.end();
+            }
+        });
+}
+
+function add() {
     
+    init();
+}
+
+function view() {
+    
+    init();
+}
+
+function update() {
+    
+    init();
 }
 
 connection.connect(function(error) {
