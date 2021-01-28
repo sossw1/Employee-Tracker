@@ -52,8 +52,25 @@ function add() {
 }
 
 function addDepartment() {
-    console.log('add dept');
-    return init();
+    inquirer.prompt([
+        {
+            name: 'deptName',
+            type: 'input',
+            message: 'Department name:'
+        }
+    ]).then(function(answer) {
+        connection.query(
+            'INSERT INTO departments SET ?',
+            {
+                name: answer.deptName
+            },
+            function(err) {
+                if(err) throw err;
+                console.log('Department added successfully.');
+                init();
+            }
+        );
+    });
 }
 
 function addRole() {
