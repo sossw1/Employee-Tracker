@@ -19,18 +19,16 @@ function init() {
             message: 'Please select an action.',
             choices: ['Add', 'View', 'Update', 'Exit']
         }).then(function(answer) {
-            if(answer.action === 'Add') {
-                add();
-            }
-            else if(answer.action === 'View') {
-                view();
-            }
-            else if(answer.action === 'Update') {
-                update();
-            }
-            else {
-                console.log('Goodbye.')
-                connection.end();
+            switch(answer.action) {
+                case 'Add':
+                    return add();
+                case 'View':
+                    return view();
+                case 'Update':
+                    return update();
+                case 'Exit':
+                    console.log('Goodbye.');
+                    return connection.end();
             }
         });
 }
