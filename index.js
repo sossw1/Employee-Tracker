@@ -34,8 +34,24 @@ function init() {
 }
 
 function add() {
-    
-    init();
+    inquirer.prompt({
+        name: 'addItem',
+        type: 'list',
+        message: 'What would you like to add?',
+        choices: ['Department','Role','Employee']
+    }).then(function(answer) {
+        switch(answer.addItem){
+            case 'Department':
+                
+                return init();
+            case 'Role':
+                
+                return init();
+            case 'Employee':
+                
+                return init();
+        }
+    });
 }
 
 function view() {
