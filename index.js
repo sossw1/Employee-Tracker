@@ -42,16 +42,28 @@ function add() {
     }).then(function(answer) {
         switch(answer.addItem){
             case 'Department':
-                
-                return init();
+                return addDepartment();
             case 'Role':
-                
-                return init();
+                return addRole();
             case 'Employee':
-                
-                return init();
+                return addEmployee();
         }
     });
+}
+
+function addDepartment() {
+    console.log('add dept');
+    return init();
+}
+
+function addRole() {
+    console.log('add role');
+    return init();
+}
+
+function addEmployee() {
+    console.log('add employee');
+    return init();
 }
 
 function view() {
