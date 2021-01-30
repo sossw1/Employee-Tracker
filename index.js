@@ -42,17 +42,26 @@ function view() {
       name: "viewChoice",
       type: "list",
       message: "Which table would you like to view?",
-      choices: ["Departments", "Roles", "Employees"],
+      choices: ["View All Employees", "View All Roles", "View All Departments"],
     })
     .then(function (answer) {
-      connection.query(
-        `SELECT * FROM ${answer.viewChoice.toLowerCase()}`,
-        (err, results) => {
-          if (err) throw err;
-          console.table(results);
-          init();
-        }
-      );
+      let query;
+      switch (answer.viewChoice) {
+        case "View All Employees":
+          query = "SELECT * FROM employees";
+          break;
+        case "View All Roles":
+          query = "SELECT * FROM roles";
+          break;
+        case "View All Departments":
+          query = "SELECT * FROM departments";
+          break;
+      }
+      connection.query(query, (err, data) => {
+        if(err) throw err;
+        console.table(data);
+        return init();
+      });
     });
 }
 
