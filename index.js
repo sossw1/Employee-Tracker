@@ -19,20 +19,40 @@ function init() {
       name: "action",
       type: "list",
       message: "Please select an action.",
-      choices: ["Add", "View", "Update", "Exit"],
+      choices: ["View", "Add", "Update", "Exit"],
     })
     .then(function (answer) {
       switch (answer.action) {
-        case "Add":
-          return add();
         case "View":
           return view();
+        case "Add":
+          return add();
         case "Update":
           return update();
         case "Exit":
           console.log("Goodbye.");
           return connection.end();
       }
+    });
+}
+
+function view() {
+  inquirer
+    .prompt({
+      name: "viewChoice",
+      type: "list",
+      message: "Which table would you like to view?",
+      choices: ["Departments", "Roles", "Employees"],
+    })
+    .then(function (answer) {
+      connection.query(
+        `SELECT * FROM ${answer.viewChoice.toLowerCase()}`,
+        (err, results) => {
+          if (err) throw err;
+          console.table(results);
+          init();
+        }
+      );
     });
 }
 
@@ -152,26 +172,6 @@ function addEmployee() {
         function (err) {
           if (err) throw err;
           console.log("Employee added successfully.");
-          init();
-        }
-      );
-    });
-}
-
-function view() {
-  inquirer
-    .prompt({
-      name: "viewChoice",
-      type: "list",
-      message: "Which table would you like to view?",
-      choices: ["Departments", "Roles", "Employees"],
-    })
-    .then(function (answer) {
-      connection.query(
-        `SELECT * FROM ${answer.viewChoice.toLowerCase()}`,
-        (err, results) => {
-          if (err) throw err;
-          console.table(results);
           init();
         }
       );
