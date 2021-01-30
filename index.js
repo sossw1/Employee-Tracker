@@ -29,7 +29,7 @@ function init() {
           return add();
         case "Update":
           // Could be expanded later
-          return updateEmployee();
+          return updateEmployeeRole();
         case "Exit":
           console.log("Goodbye.");
           return connection.end();
@@ -204,7 +204,7 @@ function addEmployee() {
 //     });
 // }
 
-function updateEmployee() {
+function updateEmployeeRole() {
   connection.query("SELECT * FROM employees", function (err, results) {
     if (err) throw err;
     inquirer
