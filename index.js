@@ -3,6 +3,7 @@ const login = require("./login.json");
 
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -170,7 +171,7 @@ function view() {
         `SELECT * FROM ${answer.viewChoice.toLowerCase()}`,
         (err, results) => {
           if (err) throw err;
-          console.log(results);
+          console.table(results);
           init();
         }
       );
