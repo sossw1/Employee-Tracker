@@ -208,21 +208,43 @@ function updateEmployee() {
   connection.query("SELECT * FROM employees", function (err, results) {
     if (err) throw err;
     inquirer
-      .prompt({
-        name: "employeeChoice",
-        type: "list",
-        message: "Which employee would you like to update?",
-        choices: function () {
-          let choiceArray = [];
-          for (result of results) {
-            choiceArray.push(result.first_name + " " + result.last_name);
-          }
-          return choiceArray;
+      .prompt([
+        {
+          name: "employeeChoice",
+          type: "list",
+          message: "Which employee would you like to update?",
+          choices: function () {
+            let choiceArray = [];
+            for (result of results) {
+              choiceArray.push(`${result.id}: ${result.first_name} ${result.last_name}`);
+            }
+            return choiceArray;
+          },
         },
-      })
+        {
+          name: "roleChoice",
+          type: "number",
+          message: "What is their role id?",
+        },
+      ])
       .then(function (answer) {
-        console.log(answer.employeeChoice);
-        return init();
+        let employeeId = answer.employeeChoice.split(":")[0];
+        connection.query(
+          "UPDATE employees SET ? WHERE ?",
+          [
+            {
+              role_id: answer.roleChoice 
+            },
+            {
+              id: employeeId
+            },
+          ],
+          function (err) {
+            if (err) throw err;
+            console.log("Employee updated successfully!");
+            return init();
+          }
+        );
       });
   });
 }
