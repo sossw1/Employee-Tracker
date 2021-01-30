@@ -14,23 +14,23 @@ const connection = mysql.createConnection({
 
 function init() {
     inquirer.prompt({
-            name: 'action',
-            type: 'list',
-            message: 'Please select an action.',
-            choices: ['Add', 'View', 'Update', 'Exit']
-        }).then(function(answer) {
-            switch(answer.action) {
-                case 'Add':
-                    return add();
-                case 'View':
-                    return view();
-                case 'Update':
-                    return update();
-                case 'Exit':
-                    console.log('Goodbye.');
-                    return connection.end();
-            }
-        });
+        name: 'action',
+        type: 'list',
+        message: 'Please select an action.',
+        choices: ['Add', 'View', 'Update', 'Exit']
+    }).then(function (answer) {
+        switch (answer.action) {
+            case 'Add':
+                return add();
+            case 'View':
+                return view();
+            case 'Update':
+                return update();
+            case 'Exit':
+                console.log('Goodbye.');
+                return connection.end();
+        }
+    });
 }
 
 function add() {
@@ -38,9 +38,9 @@ function add() {
         name: 'addItem',
         type: 'list',
         message: 'What would you like to add?',
-        choices: ['Department','Role','Employee']
-    }).then(function(answer) {
-        switch(answer.addItem){
+        choices: ['Department', 'Role', 'Employee']
+    }).then(function (answer) {
+        switch (answer.addItem) {
             case 'Department':
                 return addDepartment();
             case 'Role':
@@ -58,14 +58,14 @@ function addDepartment() {
             type: 'input',
             message: 'Department name:'
         }
-    ]).then(function(answer) {
+    ]).then(function (answer) {
         connection.query(
             'INSERT INTO departments SET ?',
             {
                 name: answer.deptName
             },
-            function(err) {
-                if(err) throw err;
+            function (err) {
+                if (err) throw err;
                 console.log('Department added successfully.');
                 init();
             }
@@ -74,8 +74,37 @@ function addDepartment() {
 }
 
 function addRole() {
-    console.log('add role');
-    return init();
+    inquirer.prompt([
+        {
+            name: 'title',
+            type: 'input',
+            message: 'Role title:'
+        },
+        {
+            name: 'salary',
+            type: 'number',
+            message: 'Salary:'
+        },
+        {
+            name: 'department_id',
+            type: 'number',
+            message: 'Department id:'
+        }
+    ]).then(function (answer) {
+        connection.query(
+            'INSERT INTO roles SET ?',
+            {
+                title: answer.title,
+                salary: answer.salary,
+                department_id: answer.department_id
+            },
+            function (err) {
+                if (err) throw err;
+                console.log('Role added successfully.');
+                init();
+            }
+        );
+    });
 }
 
 function addEmployee() {
@@ -89,11 +118,11 @@ function view() {
 }
 
 function update() {
-    
+
     init();
 }
 
-connection.connect(function(error) {
+connection.connect(function (error) {
     if (error) throw error;
     init();
 });
