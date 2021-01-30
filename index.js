@@ -108,8 +108,43 @@ function addRole() {
 }
 
 function addEmployee() {
-    console.log('add employee');
-    return init();
+    inquirer.prompt([
+        {
+            name: 'first_name',
+            type: 'input',
+            message: 'First name:'
+        },
+        {
+            name: 'last_name',
+            type: 'input',
+            message: 'Last name:'
+        },
+        {
+            name: 'role_id',
+            type: 'number',
+            message: 'Role id:'
+        },
+        {
+            name: 'manager_id',
+            type: 'number',
+            message: 'Manager id:'
+        }
+    ]).then(function (answer) {
+        connection.query(
+            'INSERT INTO employees SET ?',
+            {
+                first_name: answer.first_name,
+                last_name: answer.last_name,
+                role_id: answer.role_id,
+                manager_id: answer.manager_id
+            },
+            function (err) {
+                if (err) throw err;
+                console.log('Employee added successfully.');
+                init();
+            }
+        );
+    });
 }
 
 function view() {
