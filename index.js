@@ -28,7 +28,8 @@ function init() {
         case "Add":
           return add();
         case "Update":
-          return update();
+          // Could be expanded later
+          return updateEmployee();
         case "Exit":
           console.log("Goodbye.");
           return connection.end();
@@ -58,7 +59,7 @@ function view() {
           break;
       }
       connection.query(query, (err, data) => {
-        if(err) throw err;
+        if (err) throw err;
         console.table(data);
         return init();
       });
@@ -187,8 +188,43 @@ function addEmployee() {
     });
 }
 
-function update() {
-  init();
+// function update() {
+//   inquirer
+//     .prompt({
+//       name: "updateChoice",
+//       type: "list",
+//       message: "What would you like to update?",
+//       choices: ["Update an Employee Role"],
+//     })
+//     .then(async function (answer) {
+//       switch (answer.updateChoice) {
+//         case "Update an Employee Role":
+//           return updateEmployee();
+//       }
+//     });
+// }
+
+function updateEmployee() {
+  connection.query("SELECT * FROM employees", function (err, results) {
+    if (err) throw err;
+    inquirer
+      .prompt({
+        name: "employeeChoice",
+        type: "list",
+        message: "Which employee would you like to update?",
+        choices: function () {
+          let choiceArray = [];
+          for (result of results) {
+            choiceArray.push(result.first_name + " " + result.last_name);
+          }
+          return choiceArray;
+        },
+      })
+      .then(function (answer) {
+        console.log(answer.employeeChoice);
+        return init();
+      });
+  });
 }
 
 connection.connect(function (error) {
