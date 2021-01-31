@@ -188,22 +188,6 @@ function addEmployee() {
     });
 }
 
-// function update() {
-//   inquirer
-//     .prompt({
-//       name: "updateChoice",
-//       type: "list",
-//       message: "What would you like to update?",
-//       choices: ["Update an Employee Role"],
-//     })
-//     .then(async function (answer) {
-//       switch (answer.updateChoice) {
-//         case "Update an Employee Role":
-//           return updateEmployee();
-//       }
-//     });
-// }
-
 function updateEmployeeRole() {
   connection.query("SELECT * FROM employees", function (err, results) {
     if (err) throw err;
