@@ -1,6 +1,3 @@
-// Login info stored separately
-const login = require("./login.json");
-
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
@@ -8,8 +5,8 @@ const cTable = require("console.table");
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
-  user: login.username,
-  password: login.password,
+  user: "",
+  password: "",
   database: "team_db",
 });
 
