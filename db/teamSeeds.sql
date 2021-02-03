@@ -1,30 +1,6 @@
-DROP DATABASE IF EXISTS team_db;
-CREATE DATABASE team_db;
-
 USE team_db;
 
-CREATE TABLE departments (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(30),
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE roles (
-    id INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(30),
-    salary DECIMAL,
-    department_id INT,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE employees (
-    id INT NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(30),
-    last_name VARCHAR(30),
-    role_id INT,
-    manager_id INT,
-    PRIMARY KEY (id)
-);
+-- Departments
 
 INSERT INTO departments (name)
 VALUES ("Accounting");
@@ -34,6 +10,8 @@ VALUES ("Payroll");
 
 INSERT INTO departments (name)
 VALUES ("Marketing");
+
+-- Roles
 
 INSERT INTO roles (title, salary, department_id)
 VALUES ("Jr. Accountant", 45000, 1);
@@ -52,6 +30,8 @@ VALUES ("Graphic Designer", 50000, 3);
 
 INSERT INTO roles (title, salary, department_id)
 VALUES ("Project Manager", 70000, 3);
+
+-- Employees
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES("Barry", "Downs", 2, NULL);
